@@ -1,0 +1,6 @@
+services:
+  app:
+    build: ./
+    restart: on-failure
+    ports:
+      - "8080:8080"
