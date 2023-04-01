@@ -37,6 +37,7 @@ docker-compose up
 * Lombok
 * Spring Test
 * Spring Boot Maven Plugin
+* Jacoco Maven Plugin
 
 ## API Documentation/Actuator Links
 [Swagger UI](http://localhost:8080/swagger-ui)  
