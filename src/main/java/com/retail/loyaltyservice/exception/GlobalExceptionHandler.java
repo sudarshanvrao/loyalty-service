@@ -12,7 +12,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 /**
  * Global exception handler to handle all exception scenarios.
@@ -50,7 +52,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     protected ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex,
-                                                                      WebRequest request) {
+            WebRequest request) {
         ApiError apiError = new ApiError(BAD_REQUEST, "Invalid/Inappropriate request", ex);
         log.error("Exception occurred due to invalid/inappropriate request : ", ex);
         return buildResponseEntity(apiError);

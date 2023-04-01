@@ -3,7 +3,6 @@ package com.retail.loyaltyservice.controller;
 import com.retail.loyaltyservice.model.Customer;
 import com.retail.loyaltyservice.model.LoyaltySummary;
 import com.retail.loyaltyservice.model.MonthlyLoyaltyPoints;
-import com.retail.loyaltyservice.service.CustomerService;
 import com.retail.loyaltyservice.service.LoyaltyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,13 +19,11 @@ import static org.springframework.http.HttpStatus.OK;
 public class LoyaltyControllerTest {
 
     private LoyaltyService loyaltyService;
-    private CustomerService customerService;
     private LoyaltyController loyaltyController;
 
     @BeforeEach
     public void setUp() {
         loyaltyService = mock(LoyaltyService.class);
-        customerService = mock(CustomerService.class);
         loyaltyController = new LoyaltyController(loyaltyService);
     }
 

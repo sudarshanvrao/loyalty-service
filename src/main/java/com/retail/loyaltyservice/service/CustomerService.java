@@ -51,7 +51,8 @@ public class CustomerService {
      * @param customer
      */
     public Optional<Customer> update(Customer customer) {
-        customerRepo.update(customer.getId(), customer.getName(), customer.getEmail(), customer.getAddress(), customer.getLoyaltyPoints());
+        customerRepo.update(customer.getId(), customer.getName(), customer.getEmail(), customer.getAddress(),
+                customer.getLoyaltyPoints());
         return customerRepo.findById(customer.getId());
     }
 }

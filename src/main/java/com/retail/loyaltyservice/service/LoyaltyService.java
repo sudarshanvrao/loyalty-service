@@ -69,7 +69,8 @@ public class LoyaltyService {
         }
         List<Order> orders = orderRepo.findByCustomer(customer);
         log.debug("Fetching Loyalty points for Customer : " + customerOptional.get().getName());
-        List<MonthlyLoyaltyPoints> monthlyLoyaltyPoints = LoyaltyPointsUtil.getMonthlyLoyaltyPoints(orders, startDate, endDate);
+        List<MonthlyLoyaltyPoints> monthlyLoyaltyPoints = LoyaltyPointsUtil.getMonthlyLoyaltyPoints(orders, startDate,
+                endDate);
         log.debug("Total Loyalty points is " + customer.getLoyaltyPoints());
         return LoyaltySummary.builder()
                 .customer(customer)

@@ -51,16 +51,18 @@ public class LoyaltyPointsUtil {
 
     /**
      * Method to calculate monthly loyalty points for a customer.
+     * 
      * @param orders
      * @param startDate
      * @param endDate
      * @return List<MonthlyLoyaltyPoints>
      */
-    public static List<MonthlyLoyaltyPoints> getMonthlyLoyaltyPoints(List<Order> orders, LocalDate startDate, LocalDate endDate) {
+    public static List<MonthlyLoyaltyPoints> getMonthlyLoyaltyPoints(List<Order> orders, LocalDate startDate,
+            LocalDate endDate) {
         Map<YearMonth, Integer> monthlyPointsMap = new HashMap<>();
         orders.stream().forEach(order -> {
             LocalDate orderDate = order.getOrderDate();
-            if(orderDate.isBefore(startDate) || orderDate.isAfter(endDate)) {
+            if (orderDate.isBefore(startDate) || orderDate.isAfter(endDate)) {
                 return;
             }
             int loyaltyPoints = order.getLoyaltyPoints();
@@ -68,11 +70,12 @@ public class LoyaltyPointsUtil {
         });
 
         List<MonthlyLoyaltyPoints> monthlyLoyaltyPointsList = new ArrayList<>();
-        for(YearMonth yearMonth : monthlyPointsMap.keySet()) {
+        for (YearMonth yearMonth : monthlyPointsMap.keySet()) {
             int loyaltyPoints = monthlyPointsMap.get(yearMonth);
-            MonthlyLoyaltyPoints monthlyLoyaltyPoints = MonthlyLoyaltyPoints.builder().month(yearMonth.getMonthValue()).year(yearMonth.getYear()).points(loyaltyPoints).build();
+            MonthlyLoyaltyPoints monthlyLoyaltyPoints = MonthlyLoyaltyPoints.builder().month(yearMonth.getMonthValue())
+                    .year(yearMonth.getYear()).points(loyaltyPoints).build();
             monthlyLoyaltyPointsList.add(monthlyLoyaltyPoints);
         }
-       return monthlyLoyaltyPointsList;
+        return monthlyLoyaltyPointsList;
     }
 }
