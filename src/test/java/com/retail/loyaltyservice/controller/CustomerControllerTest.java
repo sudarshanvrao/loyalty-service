@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -74,6 +76,20 @@ public class CustomerControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(CREATED);
         assertThat(response.getBody().getName()).isEqualTo(expectedResult.get().getName());
         assertThat(response.getBody().getLoyaltyPoints()).isEqualTo(expectedResult.get().getLoyaltyPoints());
+    }
+
+    @Test
+    public void testUpdate_Fail() {
+        Customer customerToUpdate = new Customer(1L, "John Doe", "johndoe@yahoo.com", "Cochin, Kerala",50);
+        long incorrectCustomerId = 2L;
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            customerController.update(incorrectCustomerId, customerToUpdate);
+        });
+
+        String expectedMessage = "Customer id mismatch in request";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
 }
