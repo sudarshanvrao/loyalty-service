@@ -22,27 +22,29 @@ public class LoyaltyPointsUtil {
 
     private static final String THRESHOLD_FIFTY = "50";
 
-    private static final String POINTS_MULTIPLIER = "2";
-
     /**
      * Method to calculate total loyalty points gained for total purchase amount.
-     * 
+     *
      * @param totalOrderAmount
+     * @param spendMultiplierOverFifty
+     * @param spendMultiplierOverHundred
      * @return loyalty points
      */
-    public static int calculatePoints(BigDecimal totalOrderAmount) {
+    public static int calculatePoints(BigDecimal totalOrderAmount, int spendMultiplierOverFifty,
+            int spendMultiplierOverHundred) {
         log.debug("Calculating Loyalty points for the order amount : " + totalOrderAmount);
         BigDecimal thresholdHundredDollars = new BigDecimal(THRESHOLD_HUNDRED);
         BigDecimal thresholdFiftyDollars = new BigDecimal(THRESHOLD_FIFTY);
 
         int pointsForSpendingOver100 = totalOrderAmount.subtract(thresholdHundredDollars)
                 .max(BigDecimal.ZERO)
-                .multiply(new BigDecimal(POINTS_MULTIPLIER))
+                .multiply(new BigDecimal(spendMultiplierOverHundred))
                 .intValue();
 
         int pointsForSpendingOver50 = totalOrderAmount.subtract(thresholdFiftyDollars)
                 .max(BigDecimal.ZERO)
                 .min(thresholdFiftyDollars)
+                .multiply(new BigDecimal(spendMultiplierOverFifty))
                 .intValue();
         int totalLoyaltyPointsEarned = pointsForSpendingOver100 + pointsForSpendingOver50;
         log.info("Total Loyalty points earned is for this order: " + totalLoyaltyPointsEarned);

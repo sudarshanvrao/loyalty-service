@@ -8,6 +8,7 @@ import com.retail.loyaltyservice.util.LoyaltyPointsUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,12 @@ public class OrderService {
     private final OrderRepository orderRepo;
 
     private final CustomerRepository customerRepo;
+
+    @Value("${loyalty.service.spend_multiplier_over_fifty}")
+    private int spendMultiplierOverFifty;
+
+    @Value("${loyalty.service.spend_multiplier_over_hundred}")
+    private int spendMultiplierOverHundred;
 
     public OrderService(OrderRepository orderRepo, CustomerRepository customerRepo) {
         this.orderRepo = orderRepo;
@@ -44,7 +51,8 @@ public class OrderService {
         Customer customer = customerOptional.get();
         order.setCustomer(customer);
 
-        Integer loyaltyPoints = LoyaltyPointsUtil.calculatePoints(order.getTotalAmount());
+        Integer loyaltyPoints = LoyaltyPointsUtil.calculatePoints(order.getTotalAmount(), spendMultiplierOverFifty,
+                spendMultiplierOverHundred);
         log.debug("Earned " + loyaltyPoints + " Loyalty points");
         order.setLoyaltyPoints(loyaltyPoints);
 
