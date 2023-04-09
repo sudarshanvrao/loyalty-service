@@ -39,14 +39,16 @@ class LoyaltyServiceTest {
 
     @Test
     public void testLoyaltyPoints_For_OrderAmounts() {
+        int spendMultiplierAboveFifty = 1;
+        int spendMultiplierAboveHundred = 2;
         BigDecimal orderAmountNotEligibleForLoyaltyPoints = BigDecimal.valueOf(50.58);
-        assertEquals(0, LoyaltyPointsUtil.calculatePoints(orderAmountNotEligibleForLoyaltyPoints));
+        assertEquals(0, LoyaltyPointsUtil.calculatePoints(orderAmountNotEligibleForLoyaltyPoints, spendMultiplierAboveFifty, spendMultiplierAboveHundred));
 
         BigDecimal orderAmountGreaterThan50 = BigDecimal.valueOf(75.50);
-        assertEquals(25, LoyaltyPointsUtil.calculatePoints(orderAmountGreaterThan50));
+        assertEquals(25, LoyaltyPointsUtil.calculatePoints(orderAmountGreaterThan50, spendMultiplierAboveFifty, spendMultiplierAboveHundred));
 
         BigDecimal orderAmountGreaterThan100 = BigDecimal.valueOf(160.50);
-        assertEquals(171, LoyaltyPointsUtil.calculatePoints(orderAmountGreaterThan100));
+        assertEquals(171, LoyaltyPointsUtil.calculatePoints(orderAmountGreaterThan100, spendMultiplierAboveFifty, spendMultiplierAboveHundred));
     }
 
     @Test
